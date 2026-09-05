@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marrow — Wood-Fired Dining in Portland, Oregon</title>
+<meta name="description" content="Marrow is a forty-seat, wood-fired dining room in Portland's Pearl District. Reservations by email or Instagram DM.">
+<meta name="theme-color" content="#F2ECDF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231D1812'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' fill='%23F2ECDF' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============ tokens ============ */
+:root{
+  --paper:#F2ECDF;
+  --paper-2:#E9E1D0;
+  --ink:#1D1812;
+  --ink-2:#4C443A;
+  --muted:#7A6E5B;
+  --ember:#C13E14;
+  --ember-bright:#E56533;
+  --dark:#161210;
+  --muted-d:#A99C86;
+  --line:rgba(29,24,18,.14);
+  --line-strong:rgba(29,24,18,.32);
+  --line-d:rgba(242,236,223,.16);
+  --serif:"Fraunces", Georgia, serif;
+  --mono:"Space Mono", ui-monospace, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-optical-sizing:auto;
+  line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+::selection{background:var(--ember);color:var(--paper)}
+img{display:block;max-width:100%}
+a{color:inherit}
+address{font-style:normal}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+.mono{font-family:var(--mono)}
+.container{width:min(1280px, 100% - clamp(40px, 8vw, 96px)); margin-inline:auto}
+
+/* paper grain */
+body::after{
+  content:""; position:fixed; inset:0; z-index:2000; pointer-events:none; opacity:.055;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="240" height="240" filter="url(%23n)" opacity="0.55"/></svg>');
+}
+
+/* icons */
+.icon{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .25s}
+.icon.sm{width:12px;height:12px}
+
+/* buttons */
+.btn{
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:10px; padding:15px 22px;
+  border:1px solid var(--ink); cursor:pointer; text-decoration:none; white-space:nowrap;
+  transition:background .25s, color .25s, border-color .25s;
+}
+.btn:hover .icon{transform:translate(2px,-2px)}
+.btn:hover .icon.down{transform:translate(0,2px)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:var(--ember);border-color:var(--ember)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-paper{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn-paper:hover{background:var(--ember-bright);border-color:var(--ember-bright);color:var(--paper)}
+.btn-ghost-dark{background:transparent;color:var(--paper);border-color:rgba(242,236,223,.4)}
+.btn-ghost-dark:hover{border-color:var(--paper)}
+.btn.sm{padding:11px 16px}
+.magnetic{transition:transform .5s cubic-bezier(.25,1.4,.4,1); will-change:transform}
+
+/* reveal */
+[data-reveal]{opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.22,1,.36,1) var(--d,0s), transform .8s cubic-bezier(.22,1,.36,1) var(--d,0s)}
+[data-reveal].in{opacity:1; transform:none}
+
+/* ============ nav ============ */
+.nav{position:fixed; top:0; left:0; right:0; z-index:100; background:var(--paper); border-bottom:1px solid var(--line)}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; height:68px; gap:24px}
+.wordmark{font-family:var(--serif); font-weight:600; font-size:26px; letter-spacing:-.02em; text-decoration:none; line-height:1}
+.wordmark .dot{color:var(--ember)}
+.nav-links{display:flex; gap:34px}
+.nav-links a{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.15em; text-decoration:none; color:var(--ink-2); transition:color .2s}
+.nav-links a:hover{color:var(--ember)}
+.nav-right{display:flex; align-items:center; gap:16px}
+.nav-burger{display:none; background:none; border:1px solid var(--line-strong); width:44px; height:44px; align-items:center; justify-content:center; cursor:pointer; color:var(--ink)}
+.nav-burger .icon{width:18px;height:18px}
+.nav-burger .ic-close{display:none}
+.nav-burger[aria-expanded="true"] .ic-burger{display:none}
+.nav-burger[aria-expanded="true"] .ic-close{display:block}
+
+/* mobile overlay */
+.overlay{position:fixed; inset:0; z-index:300; background:var(--dark); color:var(--paper); display:flex; flex-direction:column; padding:16px 0 28px; opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s}
+.overlay.open{opacity:1; visibility:visible}
+.overlay-head{display:flex; justify-content:space-between; align-items:center}
+.overlay-close{background:none; border:1px solid var(--line-d); color:var(--paper); width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer}
+.overlay-nav{margin-top:auto; margin-bottom:auto; display:flex; flex-direction:column}
+.overlay-nav a{
+  font-family:var(--serif); font-size:clamp(2.4rem, 9vw, 4rem); letter-spacing:-.02em; text-decoration:none;
+  padding:16px 0; border-bottom:1px solid var(--line-d); display:flex; align-items:baseline; gap:20px;
+  opacity:0; transform:translateY(18px); transition:opacity .5s var(--d,.1s), transform .5s var(--d,.1s);
+}
+.overlay.open .overlay-nav a{opacity:1; transform:none}
+.overlay-nav a span{font-family:var(--mono); font-size:11px; letter-spacing:.15em; color:var(--ember-bright)}
+.overlay-nav a:hover{color:var(--ember-bright)}
+.overlay-foot{margin-top:auto; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-d)}
+.overlay-foot a{color:var(--paper); text-decoration:underline; text-underline-offset:4px}
+
+/* ============ hero ============ */
+.hero{padding-top:68px; min-height:100vh; min-height:100svh; display:flex; align-items:center; position:relative; overflow:hidden; border-bottom:1px solid var(--line)}
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(36px,5vw,80px); align-items:center; padding:56px 0 96px}
+.eyebrow{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.18em; color:var(--ink-2); display:flex; align-items:center; gap:14px; margin-bottom:26px}
+.eyebrow::before{content:""; width:36px; height:1px; background:var(--ember)}
+.hero-title{font-size:clamp(3.2rem, 8.6vw, 8.2rem); line-height:.98; font-weight:500; letter-spacing:-.035em}
+.line-mask{display:block; overflow:hidden; padding-bottom:.09em; margin-bottom:-.06em}
+.line{display:block; transform:translateY(112%); animation:lineRise 1s cubic-bezier(.19,1,.22,1) both; animation-delay:calc(.15s + var(--i)*.11s)}
+.l2{margin-left:clamp(20px, 5vw, 76px)}
+.hero-title em{font-style:italic; color:var(--ember); font-weight:420}
+@keyframes lineRise{to{transform:none}}
+.hero-sub{max-width:46ch; font-size:clamp(1.02rem, 1.3vw, 1.2rem); color:var(--ink-2); margin-top:30px}
+.hero-meta{margin-top:34px; display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center; font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.1em}
+.status{display:inline-flex; gap:9px; align-items:center; padding:9px 14px; border:1px solid var(--line-strong); border-radius:999px}
+.status-dot{width:8px; height:8px; border-radius:50%; background:var(--muted); flex:none}
+.status-dot.is-open{background:var(--ember); animation:dotpulse 2.2s ease-in-out infinite}
+@keyframes dotpulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-meta-item{display:inline-flex; gap:7px; align-items:center; color:var(--ink-2)}
+.hero-cta{margin-top:44px; display:flex; gap:14px; flex-wrap:wrap}
+.tint{filter:grayscale(.12) sepia(.26) contrast(1.06) brightness(.97)}
+
+/* hero collage */
+.hero-media{position:relative; padding-bottom:9%}
+.hero-img.main{width:100%; aspect-ratio:4/5; overflow:hidden}
+.hero-img.main img{width:100%; height:100%; object-fit:cover}
+.hero-img.small{position:absolute; left:-14%; bottom:-6%; width:46%; aspect-ratio:1/1; overflow:hidden; border:10px solid var(--paper); outline:1px solid var(--line-strong); box-shadow:0 24px 48px rgba(29,24,18,.22); transform:rotate(-2deg)}
+.hero-img.small img{width:100%; height:100%; object-fit:cover}
+.fig-cap{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:10px}
+.hero-img.small .fig-cap{display:none}
+
+/* ============ marquee ============ */
+.marquee{background:var(--ink); color:var(--paper); overflow:hidden; padding:15px 0}
+.marquee-track{display:flex; width:max-content; animation:mq 34s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.mq-group{display:flex; align-items:center; flex:none}
+.mq-item{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.2em; padding:0 24px; white-space:nowrap}
+.mq-sep{color:var(--ember-bright); font-family:var(--mono); font-size:14px; line-height:1}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ============ sections ============ */
+.section{padding:clamp(84px, 10vw, 148px) 0}
+.sec-head{display:flex; align-items:center; gap:18px; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.17em; color:var(--ink-2); margin-bottom:clamp(36px, 5vw, 64px)}
+.sec-no{color:var(--ember); font-weight:700}
+.sec-rule{flex:1; height:1px; background:var(--line)}
+.display{font-size:clamp(2.2rem, 4.6vw, 4.2rem); line-height:1.05; letter-spacing:-.02em; font-weight:500}
+.display em{font-style:italic; color:var(--ember); font-weight:420}
+.body{font-size:1.06rem; color:var(--ink-2); max-width:54ch}
+
+/* story */
+.story-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(40px, 6vw, 96px); align-items:start}
+.story-left .display{max-width:14ch}
+.story-img{margin-top:52px; overflow:hidden}
+.story-img img{width:100%; aspect-ratio:16/10; object-fit:cover}
+.story-right{padding-top:10px}
+.story-right .body + .body{margin-top:22px}
+.display-line{margin-top:44px; padding-top:34px; border-top:1px solid var(--line); font-size:clamp(1.7rem, 2.8vw, 2.5rem); line-height:1.2; font-weight:500}
+.story-facts{margin-top:30px; font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.15em; color:var(--muted); line-height:2.1; max-width:44ch}
+
+/* ============ menu ============ */
+.menu-top{display:flex; justify-content:space-between; align-items:flex-end; gap:32px; flex-wrap:wrap}
+.menu-note{font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--muted); max-width:36ch; line-height:1.9}
+.menu-groups{margin-top:clamp(48px, 6vw, 80px); max-width:920px}
+.group-title{font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.2em; color:var(--ember); display:flex; align-items:center; gap:16px; margin-bottom:6px}
+.group-title::after{content:""; flex:1; height:1px; background:var(--line)}
+.menu-group + .menu-group{margin-top:clamp(48px, 6vw, 72px)}
+.dish{list-style:none; padding:22px 0 20px; border-bottom:1px solid var(--line)}
+.dish-row{display:flex; align-items:baseline; gap:16px}
+.dish-name{font-size:clamp(1.3rem, 2.2vw, 1.85rem); font-weight:500; letter-spacing:-.01em; line-height:1.15; transition:color .22s}
+.dish-leader{flex:1 1 24px; min-width:24px; border-bottom:1px dotted var(--line-strong); position:relative; top:-5px}
+.dish-price{font-family:var(--mono); font-size:13px; color:var(--ink-2); white-space:nowrap}
+.dish-desc{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--muted); margin-top:8px; max-width:60ch}
+@media (hover:hover){ .dish:hover .dish-name{color:var(--ember)} }
+
+/* floating dish print */
+.dish-float{position:fixed; top:0; left:0; width:232px; height:298px; z-index:80; pointer-events:none; opacity:0; transition:opacity .3s ease; will-change:transform}
+.dish-float.show{opacity:1}
+.dish-float-frame{position:absolute; inset:0; background:var(--paper); border:1px solid var(--ink); box-shadow:0 26px 52px rgba(29,24,18,.28)}
+.df-img{position:absolute; top:7px; left:7px; right:7px; height:246px; overflow:hidden; background:var(--paper-2)}
+.df-img img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .35s ease; filter:grayscale(.12) sepia(.26) contrast(1.06) brightness(.97)}
+.df-img img.active{opacity:1}
+.df-cap{position:absolute; left:10px; right:10px; bottom:10px; font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:.12em; color:var(--ink-2); display:flex; justify-content:space-between; gap:12px; overflow:hidden; white-space:nowrap}
+
+/* tasting row */
+.tasting{margin-top:40px; display:flex; justify-content:space-between; align-items:baseline; gap:18px; padding:24px 26px; border:1px solid var(--ink); border-left:4px solid var(--ember); text-decoration:none; transition:background .25s, color .25s}
+.tasting:hover{background:var(--ink); color:var(--paper)}
+.tasting-name{font-size:clamp(1.25rem, 2vw, 1.7rem); font-weight:500}
+.tasting-name em{font-style:italic}
+.tasting-meta{font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); text-align:right; white-space:nowrap}
+.tasting:hover .tasting-meta{color:var(--ember-bright)}
+.menu-drinks{margin-top:34px; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); line-height:2}
+
+/* ============ visit ============ */
+.visit-grid{display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px, 6vw, 88px); margin-top:10px; align-items:start}
+.map-frame{border:1px solid var(--line-strong); padding:18px}
+.map-frame svg{display:block; width:100%; height:auto}
+.map-foot{margin-top:14px; display:flex; justify-content:space-between; align-items:center; gap:16px}
+.map-cap{font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+#miniMap .pulse{fill:rgba(193,62,20,.4); transform-box:fill-box; transform-origin:center; animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.55);opacity:.9}70%{transform:scale(2.8);opacity:0}100%{transform:scale(2.8);opacity:0}}
+.status-line{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.12em; display:flex; align-items:center; gap:10px; margin-bottom:26px}
+.visit-addr{font-size:clamp(1.4rem, 2.2vw, 1.8rem); font-weight:500; line-height:1.3}
+.visit-sub{margin-top:14px; font-size:1rem; color:var(--ink-2)}
+.hours{width:100%; border-collapse:collapse; margin:34px 0 30px}
+.hours td{padding:15px 0 14px; border-bottom:1px solid var(--line); font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.1em}
+.hours td:first-child{color:var(--ink)}
+.hours td:last-child{text-align:right; color:var(--ink-2)}
+.hours tr.today td{color:var(--ember); font-weight:700}
+.today-tag{display:inline-block; margin-left:10px; font-size:8.5px; letter-spacing:.14em; color:var(--paper); background:var(--ember); padding:2px 8px 3px; border-radius:2px; vertical-align:2px}
+.visit-contact{display:flex; gap:28px; flex-wrap:wrap; font-family:var(--mono); font-size:12px}
+.visit-contact a{text-decoration:underline; text-underline-offset:5px; text-decoration-thickness:1px; transition:color .2s}
+.visit-contact a:hover{color:var(--ember)}
+
+/* ============ reservations (dark) ============ */
+.dark{background:var(--dark); color:var(--paper)}
+.dark .sec-head{color:var(--muted-d)}
+.dark .sec-rule{background:var(--line-d)}
+.dark .sec-no{color:var(--ember-bright)}
+.dark .display em{color:var(--ember-bright)}
+.lead-dark{margin-top:20px; color:#CFC4B0; max-width:52ch; font-size:1.05rem}
+.reserve-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(48px, 6vw, 100px); margin-top:clamp(40px, 5vw, 68px); align-items:start}
+.rform{color-scheme:dark}
+.field{display:flex; flex-direction:column; gap:9px; margin-bottom:28px}
+.field label{font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.17em; color:var(--muted-d)}
+.rform input, .rform select, .rform textarea{
+  background:transparent; border:none; border-bottom:1px solid rgba(242,236,223,.28);
+  border-radius:0; color:var(--paper); font-family:var(--serif); font-size:1.15rem;
+  padding:10px 2px; outline:none; transition:border-color .25s; width:100%;
+}
+.rform input::placeholder, .rform textarea::placeholder{color:rgba(242,236,223,.32); font-style:italic}
+.rform input:focus, .rform select:focus, .rform textarea:focus{border-color:var(--paper)}
+.field-error input{border-color:var(--ember-bright)}
+.field-error label{color:var(--ember-bright)}
+.rform select{
+  appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:28px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23F2ECDF' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 6px center;
+}
+.rform select option{background:var(--dark); color:var(--paper)}
+.rform textarea{resize:vertical; min-height:64px}
+.field-row{display:grid; grid-template-columns:1fr 1fr; column-gap:32px}
+.rform-error{font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--ember-bright); margin:-8px 0 20px}
+.rform-actions{display:flex; gap:16px; flex-wrap:wrap; margin-top:8px}
+.rform-alt{margin-top:30px; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-d); line-height:2.2}
+.rform-alt a{color:var(--paper); text-decoration:underline; text-underline-offset:4px; transition:color .2s}
+.rform-alt a:hover{color:var(--ember-bright)}
+.rform-alt .ig{display:inline-flex; align-items:center; gap:6px}
+.rform-alt .sep{margin:0 10px; color:var(--muted-d)}
+
+/* ticket */
+.ticket{position:relative; background:var(--paper); color:var(--ink); padding:26px 26px 22px; transform:rotate(-1.5deg); box-shadow:0 32px 64px rgba(0,0,0,.45); width:min(430px, 100%)}
+.ticket-head{display:flex; justify-content:space-between; align-items:center; gap:12px}
+.t-logo{font-family:var(--serif); font-weight:600; font-size:24px; letter-spacing:-.02em}
+.t-logo .dot{color:var(--ember)}
+.t-tag{font-family:var(--mono); font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.2em; border:1px solid var(--ink); padding:4px 10px; border-radius:999px}
+.t-no{font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--ink-2); text-align:right; margin-top:12px}
+.t-dash{border-top:1px dashed var(--line-strong); margin:18px -26px}
+.t-rows{display:flex; flex-direction:column; gap:13px}
+.t-rows > div{display:flex; justify-content:space-between; align-items:baseline; gap:16px}
+.t-rows dt{font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:.18em; color:var(--muted)}
+.t-rows dd{font-size:1.05rem; font-weight:500; text-align:right}
+.t-notes{font-family:var(--mono); font-size:10px; line-height:1.7; color:var(--ink-2); margin-top:16px; border-left:2px solid var(--ember); padding-left:12px}
+.t-dash-2{position:relative; border-top:1px dashed var(--line-strong); margin:20px -26px 0}
+.t-dash-2::before, .t-dash-2::after{content:""; position:absolute; top:-8px; width:16px; height:16px; border-radius:50%; background:var(--dark)}
+.t-dash-2::before{left:-8px}
+.t-dash-2::after{right:-8px}
+.t-barcode{display:block; width:132px; height:26px; margin:16px auto 8px}
+.t-foot{font-family:var(--mono); font-size:8.5px; text-transform:uppercase; letter-spacing:.14em; color:var(--muted); text-align:center}
+.t-stamp{position:absolute; top:66px; right:16px; transform:rotate(9deg); border:2px solid var(--ember); color:var(--ember); font-family:var(--mono); font-weight:700; font-size:11px; letter-spacing:.28em; text-transform:uppercase; padding:5px 12px 4px; border-radius:2px; opacity:.72; mix-blend-mode:multiply}
+.ticket-note{margin-top:28px; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--muted-d); max-width:40ch; line-height:2}
+
+/* ============ footer ============ */
+footer{background:var(--dark); color:var(--paper); border-top:1px solid var(--line-d); padding:clamp(60px, 8vw, 100px) 0 36px}
+.foot-word{font-size:clamp(4.5rem, 16.5vw, 14.5rem); line-height:.82; font-weight:560; letter-spacing:-.045em; margin-bottom:clamp(44px, 6vw, 76px)}
+.foot-word .dot{color:var(--ember-bright)}
+.foot-grid{display:flex; justify-content:space-between; gap:40px 64px; flex-wrap:wrap; padding-top:30px; border-top:1px solid var(--line-d); font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; line-height:2.3}
+.foot-grid h4{font-size:9px; letter-spacing:.2em; color:var(--muted-d); margin-bottom:8px; font-weight:400}
+.foot-grid a{text-decoration:none; transition:color .2s}
+.foot-grid a:hover{color:var(--ember-bright)}
+.foot-social{display:flex; gap:24px}
+.foot-social a{display:inline-flex; align-items:center; gap:7px}
+.foot-bottom{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:56px; padding-top:20px; border-top:1px solid var(--line-d); font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted-d)}
+.foot-bottom a{display:inline-flex; align-items:center; gap:8px; text-decoration:none; color:var(--muted-d); transition:color .2s}
+.foot-bottom a:hover{color:var(--paper)}
+
+/* toast */
+.toast{
+  position:fixed; left:50%; bottom:28px; z-index:1000; transform:translate(-50%,16px);
+  display:flex; align-items:center; gap:11px; max-width:min(92vw, 500px);
+  background:var(--ink); color:var(--paper); border:1px solid rgba(242,236,223,.25);
+  box-shadow:0 20px 50px rgba(0,0,0,.4); padding:15px 22px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em;
+  opacity:0; pointer-events:none; transition:transform .35s, opacity .35s;
+}
+.toast .icon{color:var(--ember-bright)}
+.toast.show{opacity:1; transform:translate(-50%,0)}
+
+/* ============ responsive ============ */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr; padding:44px 0 72px}
+  .hero-media{max-width:560px}
+  .story-grid, .visit-grid, .reserve-grid{grid-template-columns:1fr; gap:56px}
+}
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+}
+@media (max-width:720px){
+  .nav .btn{display:none}
+  .hero{min-height:0}
+  .hero-img.small{width:42%; left:-4%; bottom:-7%}
+  .menu-top{flex-direction:column; align-items:flex-start}
+  .tasting{flex-direction:column; align-items:flex-start; gap:10px}
+  .tasting-meta{text-align:left}
+  .ticket{transform:rotate(-1deg); margin-inline:auto}
+}
+@media (max-width:560px){
+  .field-row{grid-template-columns:1fr}
+  .dish-leader{display:none}
+  .dish-row{justify-content:space-between}
+  .rform-actions .btn{width:100%; justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .marquee-track{animation:none}
+  [data-reveal]{transition:none; opacity:1; transform:none}
+  .line{animation:none; transform:none}
+  .magnetic{transition:none}
+  .status-dot.is-open, #miniMap .pulse{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-5.1-7-11a7 7 0 0 1 14 0c0 5.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- nav -->
+<header class="nav" id="top">
+  <div class="nav-inner container">
+    <a href="#top" class="wordmark">Marrow<span class="dot">.</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#story">Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <div class="nav-right">
+      <a href="#reserve" class="btn btn-ink sm magnetic">Reserve a table</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+        <svg class="icon ic-burger" viewBox="0 0 24 24"><path d="M3 8h18M3 16h18"/></svg>
+        <svg class="icon ic-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- mobile overlay menu -->
+<div class="overlay" id="overlay">
+  <div class="overlay-head container">
+    <span class="wordmark">Marrow<span class="dot">.</span></span>
+    <button class="overlay-close" id="overlayClose" aria-label="Close menu">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav class="overlay-nav container" aria-label="Mobile">
+    <a href="#story" style="--d:.08s"><span>01</span>Story</a>
+    <a href="#menu" style="--d:.14s"><span>02</span>Menu</a>
+    <a href="#visit" style="--d:.2s"><span>03</span>Visit</a>
+    <a href="#reserve" style="--d:.26s"><span>04</span>Reservations</a>
+  </nav>
+  <div class="overlay-foot container">118 NW 11th Ave, Portland OR · <a href="https://www.instagram.com/marrowpdx" target="_blank" rel="noopener">@marrowpdx</a></div>
+</div>
+
+<main>
+<!-- ============ hero ============ -->
+<section class="hero">
+  <div class="hero-grid container">
+    <div class="hero-copy">
+      <p class="eyebrow" data-reveal>Portland, Oregon — Est. 2017</p>
+      <h1 class="hero-title">
+        <span class="line-mask"><span class="line" style="--i:0">Fire, smoke</span></span>
+        <span class="line-mask"><span class="line l2" style="--i:1">&amp; <em>patience.</em></span></span>
+      </h1>
+      <p class="hero-sub" data-reveal style="--d:.25s">A wood-fired dining room in the Pearl District — forty seats around one hearth, a menu that follows the farms, and wine with no attitude.</p>
+      <div class="hero-meta" data-reveal style="--d:.35s">
+        <span class="status"><span class="status-dot"></span><span data-status-text>Checking the door…</span></span>
+        <span class="hero-meta-item"><svg class="icon sm"><use href="#i-pin"/></svg>118 NW 11th Ave</span>
+        <span class="hero-meta-item">Tue–Sun · 5 PM — Late</span>
+      </div>
+      <div class="hero-cta" data-reveal style="--d:.45s">
+        <a href="#reserve" class="btn btn-ink magnetic">Reserve a table <svg class="icon"><use href="#i-arrow-up-right"/></svg></a>
+        <a href="#menu" class="btn btn-ghost magnetic">Browse the menu <svg class="icon down"><use href="#i-arrow-down"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-media" data-reveal style="--d:.3s">
+      <figure class="hero-img main">
+        <img class="tint" src="https://picsum.photos/seed/marrow-hearth/760/950.jpg" alt="The open hearth at Marrow">
+        <figcaption class="fig-cap">The hearth — 7:15 PM</figcaption>
+      </figure>
+      <figure class="hero-img small">
+        <img class="tint" src="https://picsum.photos/seed/marrow-plate/480/480.jpg" alt="A plate of charred leeks">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="mq-group">
+      <span class="mq-item">Walk-ins at the counter</span><span class="mq-sep">·</span>
+      <span class="mq-item">Oysters until 10</span><span class="mq-sep">·</span>
+      <span class="mq-item">Thursday tasting — five courses, 74</span><span class="mq-sep">·</span>
+      <span class="mq-item">Natural wine, no snobbery</span><span class="mq-sep">·</span>
+      <span class="mq-item">Whole trout for the table</span><span class="mq-sep">·</span>
+      <span class="mq-item">Closed Mondays</span><span class="mq-sep">·</span>
+      <span class="mq-item">Walk-ins at the counter</span><span class="mq-sep">·</span>
+      <span class="mq-item">Oysters until 10</span><span class="mq-sep">·</span>
+      <span class="mq-item">Thursday tasting — five courses, 74</span><span class="mq-sep">·</span>
+      <span class="mq-item">Natural wine, no snobbery</span><span class="mq-sep">·</span>
+      <span class="mq-item">Whole trout for the table</span><span class="mq-sep">·</span>
+      <span class="mq-item">Closed Mondays</span><span class="mq-sep">·</span>
+    </div>
+    <div class="mq-group">
+      <span class="mq-item">Walk-ins at the counter</span><span class="mq-sep">·</span>
+      <span class="mq-item">Oysters until 10</span><span class="mq-sep">·</span>
+      <span class="mq-item">Thursday tasting — five courses, 74</span><span class="mq-sep">·</span>
+      <span class="mq-item">Natural wine, no snobbery</span><span class="mq-sep">·</span>
+      <span class="mq-item">Whole trout for the table</span><span class="mq-sep">·</span>
+      <span class="mq-item">Closed Mondays</span><span class="mq-sep">·</span>
+      <span class="mq-item">Walk-ins at the counter</span><span class="mq-sep">·</span>
+      <span class="mq-item">Oysters until 10</span><span class="mq-sep">·</span>
+      <span class="mq-item">Thursday tasting — five courses, 74</span><span class="mq-sep">·</span>
+      <span class="mq-item">Natural wine, no snobbery</span><span class="mq-sep">·</span>
+      <span class="mq-item">Whole trout for the table</span><span class="mq-sep">·</span>
+      <span class="mq-item">Closed Mondays</span><span class="mq-sep">·</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ story ============ -->
+<section class="section" id="story">
+  <div class="container">
+    <div class="sec-head"><span class="sec-no">01</span><span class="sec-rule"></span><span>The Idea</span></div>
+    <div class="story-grid">
+      <div class="story-left">
+        <h2 class="display" data-reveal>Close to the source, <em>close to the fire.</em></h2>
+        <figure class="story-img" data-reveal style="--d:.15s">
+          <img class="tint" loading="lazy" src="https://picsum.photos/seed/marrow-chef/720/470.jpg" alt="Chef Nora Vance before service">
+          <figcaption class="fig-cap">Chef Nora Vance, before service</figcaption>
+        </figure>
+      </div>
+      <div class="story-right">
+        <p class="body" data-reveal>Marrow is a forty-seat room built around one wood-burning hearth. Chef Nora Vance opened it in 2017 with a simple argument: the Pacific Northwest already grows everything worth eating — all a kitchen owes it is patience, and dry oak.</p>
+        <p class="body" data-reveal style="--d:.1s">So that's the whole trick. Leeks buried in embers overnight. Trout laid straight over the coals. Butter browned at the edge of the fire, bread baked in it each morning. Everything else came out of the ground today.</p>
+        <p class="display-line" data-reveal style="--d:.15s">One hearth. Forty seats. <em>No shortcuts.</em></p>
+        <p class="story-facts" data-reveal style="--d:.2s">Sourced within 200 miles when the land allows<br>Oak from the Gorge · No gas in the kitchen<br>Bread baked in the coals each morning</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ menu ============ -->
+<section class="section" id="menu">
+  <div class="container">
+    <div class="sec-head"><span class="sec-no">02</span><span class="sec-rule"></span><span>The Table</span></div>
+    <div class="menu-top">
+      <h2 class="display" data-reveal>Everything touches <em>the fire.</em></h2>
+      <p class="menu-note" data-reveal style="--d:.1s">A snapshot of late autumn. The printed menu changes nightly — this one changes when we remember.</p>
+    </div>
+
+    <div class="menu-groups">
+      <div class="menu-group" data-reveal>
+        <h3 class="group-title">From the fire</h3>
+        <ul class="dish-list">
+          <li class="dish" data-seed="marrow-bread">
+            <div class="dish-row"><span class="dish-name">Hearth flatbread</span><span class="dish-leader"></span><span class="dish-price">11</span></div>
+            <p class="dish-desc">cultured butter · flaky salt · rosemary from the roof</p>
+          </li>
+          <li class="dish" data-seed="marrow-leeks">
+            <div class="dish-row"><span class="dish-name">Charred leeks, hazelnut romesco</span><span class="dish-leader"></span><span class="dish-price">16</span></div>
+            <p class="dish-desc">buried in the embers overnight · smoked salt</p>
+          </li>
+          <li class="dish" data-seed="marrow-squash">
+            <div class="dish-row"><span class="dish-name">Ember-roasted delicata</span><span class="dish-leader"></span><span class="dish-price">18</span></div>
+            <p class="dish-desc">brown butter · maple · toasted seeds</p>
+          </li>
+          <li class="dish" data-seed="marrow-trout">
+            <div class="dish-row"><span class="dish-name">Whole trout over coals</span><span class="dish-leader"></span><span class="dish-price">36</span></div>
+            <p class="dish-desc">sorrel · charred lemon · for two</p>
+          </li>
+          <li class="dish" data-seed="marrow-ribeye">
+            <div class="dish-row"><span class="dish-name">Dry-aged ribeye, 45 days</span><span class="dish-leader"></span><span class="dish-price">68</span></div>
+            <p class="dish-desc">marrow butter · watercress · smoked salt</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="menu-group" data-reveal>
+        <h3 class="group-title">Raw &amp; cured</h3>
+        <ul class="dish-list">
+          <li class="dish" data-seed="marrow-oysters">
+            <div class="dish-row"><span class="dish-name">Oysters on the half shell</span><span class="dish-leader"></span><span class="dish-price">4 ea</span></div>
+            <p class="dish-desc">apple mignonette · fresh horseradish</p>
+          </li>
+          <li class="dish" data-seed="marrow-tartare">
+            <div class="dish-row"><span class="dish-name">Beef tartare</span><span class="dish-leader"></span><span class="dish-price">19</span></div>
+            <p class="dish-desc">smoked egg yolk · rye crisp · mustard seed</p>
+          </li>
+          <li class="dish" data-seed="marrow-crudo">
+            <div class="dish-row"><span class="dish-name">Albacore crudo</span><span class="dish-leader"></span><span class="dish-price">21</span></div>
+            <p class="dish-desc">citrus · chile oil · shaved fennel</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="menu-group" data-reveal>
+        <h3 class="group-title">To finish</h3>
+        <ul class="dish-list">
+          <li class="dish" data-seed="marrow-tart">
+            <div class="dish-row"><span class="dish-name">Burnt honey tart</span><span class="dish-leader"></span><span class="dish-price">12</span></div>
+            <p class="dish-desc">bay-leaf cream · sea salt</p>
+          </li>
+          <li class="dish" data-seed="marrow-budino">
+            <div class="dish-row"><span class="dish-name">Smoked chocolate budino</span><span class="dish-leader"></span><span class="dish-price">13</span></div>
+            <p class="dish-desc">olive oil · maldon</p>
+          </li>
+          <li class="dish" data-seed="marrow-pear">
+            <div class="dish-row"><span class="dish-name">Roasted pear</span><span class="dish-leader"></span><span class="dish-price">11</span></div>
+            <p class="dish-desc">brown-butter crumble · black pepper</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <a class="tasting" href="#reserve" data-reveal>
+      <span class="tasting-name">The Thursday Tasting — <em>five courses around the fire</em></span>
+      <span class="tasting-meta">Seats at 6:00 &amp; 8:15 · 74 per person</span>
+    </a>
+    <p class="menu-drinks" data-reveal>To drink — natural wine by the glass, amaro, and one very good martini. Full list in the room.</p>
+  </div>
+
+  <!-- floating dish print (desktop) -->
+  <div class="dish-float" id="dishFloat" aria-hidden="true">
+    <div class="dish-float-frame">
+      <div class="df-img" id="dfImg"></div>
+      <div class="df-cap"><span id="dfName">—</span><span id="dfPrice"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ visit ============ -->
+<section class="section" id="visit" style="border-top:1px solid var(--line)">
+  <div class="container">
+    <div class="sec-head"><span class="sec-no">03</span><span class="sec-rule"></span><span>Find Us</span></div>
+    <h2 class="display" data-reveal>Pearl District, <em>on 11th.</em></h2>
+
+    <div class="visit-grid">
+      <div class="map-wrap" data-reveal style="--d:.1s">
+        <div class="map-frame">
+          <svg id="miniMap" viewBox="0 0 440 440" role="img" aria-label="Stylized map of the Pearl District showing Marrow on NW 11th Avenue">
+            <!-- river -->
+            <path d="M398 0 C 424 70, 390 140, 416 210 C 442 280, 402 350, 424 440 L440 440 L440 0 Z" fill="rgba(29,24,18,.07)"/>
+            <text transform="rotate(-90 416 330)" x="416" y="330" font-family="Space Mono, monospace" font-size="8" letter-spacing="3" fill="rgba(29,24,18,.45)" text-anchor="middle">WILLAMETTE</text>
+            <!-- street grid -->
+            <g stroke="rgba(29,24,18,.15)" stroke-width="1">
+              <line x1="24" y1="60" x2="396" y2="60"/><line x1="24" y1="115" x2="396" y2="115"/>
+              <line x1="24" y1="170" x2="396" y2="170"/><line x1="24" y1="225" x2="396" y2="225"/>
+              <line x1="24" y1="280" x2="396" y2="280"/><line x1="24" y1="335" x2="396" y2="335"/>
+              <line x1="24" y1="390" x2="396" y2="390"/>
+              <line x1="48" y1="24" x2="48" y2="416"/><line x1="104" y1="24" x2="104" y2="416"/>
+              <line x1="160" y1="24" x2="160" y2="416"/><line x1="272" y1="24" x2="272" y2="416"/>
+              <line x1="328" y1="24" x2="328" y2="416"/>
+            </g>
+            <line x1="216" y1="24" x2="216" y2="416" stroke="rgba(29,24,18,.4)" stroke-width="2"/>
+            <!-- streetcar -->
+            <line x1="200" y1="24" x2="200" y2="416" stroke="rgba(193,62,20,.5)" stroke-width="1.2" stroke-dasharray="5 6"/>
+            <text transform="rotate(-90 196 66)" x="196" y="66" font-family="Space Mono, monospace" font-size="6.5" letter-spacing="1.5" fill="rgba(193,62,20,.8)">STREETCAR LOOP</text>
+            <!-- park -->
+            <rect x="230" y="182" width="44" height="48" rx="2" fill="rgba(29,24,18,.05)" stroke="rgba(29,24,18,.25)" stroke-dasharray="3 3"/>
+            <text x="252" y="209" font-family="Space Mono, monospace" font-size="6" letter-spacing="1" fill="rgba(29,24,18,.5)" text-anchor="middle">JAMISON</text>
+            <text x="252" y="219" font-family="Space Mono, monospace" font-size="6" letter-spacing="1" fill="rgba(29,24,18,.5)" text-anchor="middle">SQUARE</text>
+            <!-- street labels -->
+            <g font-family="Space Mono, monospace" font-size="7.5" letter-spacing="1.5" fill="rgba(29,24,18,.5)">
+              <text x="28" y="54">NW NORTHROP ST</text>
+              <text x="28" y="109">NW LOVEJOY ST</text>
+              <text x="28" y="164">NW HOYT ST</text>
+              <text x="28" y="219">NW IRVING ST</text>
+              <text x="28" y="274">NW JOHNSON ST</text>
+              <text x="28" y="384">W BURNSIDE ST</text>
+              <text transform="rotate(-90 160 320)" x="160" y="320" text-anchor="middle">NW 10TH AVE</text>
+              <text transform="rotate(-90 228 320)" x="228" y="320" text-anchor="middle" fill="rgba(29,24,18,.65)" font-size="8">NW 11TH AVE</text>
+            </g>
+            <!-- compass -->
+            <g transform="translate(42,42)" stroke="rgba(29,24,18,.6)" stroke-width="1.2">
+              <line x1="0" y1="16" x2="0" y2="-4"/><path d="M0 -10 l-4 7 M0 -10 l4 7"/>
+              <text x="0" y="32" text-anchor="middle" font-family="Space Mono, monospace" font-size="9" font-weight="700" fill="rgba(29,24,18,.7)" stroke="none">N</text>
+            </g>
+            <!-- scale -->
+            <line x1="24" y1="428" x2="84" y2="428" stroke="rgba(29,24,18,.5)" stroke-width="1"/>
+            <text x="92" y="431" font-family="Space Mono, monospace" font-size="6.5" fill="rgba(29,24,18,.5)">400 FT</text>
+            <!-- marker -->
+            <circle class="pulse" cx="216" cy="225" r="7"/>
+            <circle cx="216" cy="225" r="6" fill="#C13E14"/>
+            <line x1="216" y1="225" x2="228" y2="224" stroke="#1D1812" stroke-width="1"/>
+            <rect x="228" y="212" width="80" height="24" fill="#1D1812"/>
+            <text x="268" y="228" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" font-weight="700" letter-spacing="2" fill="#F2ECDF">MARROW</text>
+          </svg>
+        </div>
+        <div class="map-foot">
+          <span class="map-cap">Not to scale · Pearl District</span>
+          <a class="btn btn-ghost sm magnetic" href="https://maps.google.com/?q=118+NW+11th+Ave,+Portland,+OR+97209" target="_blank" rel="noopener">Get directions <svg class="icon"><use href="#i-arrow-up-right"/></svg></a>
+        </div>
+      </div>
+
+      <div class="visit-info" data-reveal style="--d:.18s">
+        <p class="status-line"><span class="status-dot"></span><span data-status-text>Checking the door…</span></p>
+        <address class="visit-addr">118 NW 11th Ave<br>Portland, OR 97209</address>
+        <p class="visit-sub">Pearl District — two blocks from the streetcar. Look for the oak smoke.</p>
+        <table class="hours">
+          <tbody>
+            <tr data-days="2,3,4"><td>Tue–Thu</td><td>5 PM – 10 PM</td></tr>
+            <tr data-days="5,6"><td>Fri–Sat</td><td>5 PM – 11 PM</td></tr>
+            <tr data-days="0"><td>Sun</td><td>5 PM – 10 PM</td></tr>
+            <tr data-days="1"><td>Mon</td><td>Closed</td></tr>
+          </tbody>
+        </table>
+        <div class="visit-contact">
+          <a href="mailto:hello@marrowpdx.com">hello@marrowpdx.com</a>
+          <a href="tel:+15035550182">(503) 555-0182</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ reservations ============ -->
+<section class="section dark" id="reserve">
+  <div class="container">
+    <div class="sec-head"><span class="sec-no">04</span><span class="sec-rule"></span><span>Reservations</span></div>
+    <h2 class="display" data-reveal>Save yourself <em>a seat.</em></h2>
+    <p class="lead-dark" data-reveal style="--d:.1s">No apps, no booking fees, no middlemen — tell us when you're coming, and we'll write back within the day. By email, or by DM on Instagram.</p>
+
+    <div class="reserve-grid">
+      <form class="rform" id="rform" novalidate data-reveal>
+        <div class="field-row">
+          <div class="field">
+            <label for="rName">Your name</label>
+            <input id="rName" name="name" type="text" placeholder="Nora Vance" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="rEmail">Email</label>
+            <input id="rEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="rDate">Date</label>
+            <input id="rDate" name="date" type="date">
+          </div>
+          <div class="field">
+            <label for="rTime">Time</label>
+            <select id="rTime" name="time">
+              <option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option>
+              <option>6:30 PM</option><option selected>7:00 PM</option><option>7:30 PM</option>
+              <option>8:00 PM</option><option>8:30 PM</option><option>9:00 PM</option><option>9:30 PM</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="rParty">Party</label>
+            <select id="rParty" name="party">
+              <option>1</option><option selected>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="rSeating">Seating</label>
+            <select id="rSeating" name="seating">
+              <option selected>Dining room</option>
+              <option>Chef's counter</option>
+              <option>Patio — weather permitting</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="rNotes">Occasion / notes</label>
+          <textarea id="rNotes" name="notes" rows="2" placeholder="Anniversaries, allergies, window seats — tell us."></textarea>
+        </div>
+        <p class="rform-error" id="rformError" role="alert" hidden></p>
+        <div class="rform-actions">
+          <button type="submit" class="btn btn-paper magnetic">Send request by email <svg class="icon"><use href="#i-mail"/></svg></button>
+          <button type="button" class="btn btn-ghost-dark magnetic" id="copyBtn">Copy details <svg class="icon"><use href="#i-copy"/></svg></button>
+        </div>
+        <p class="rform-alt">
+          Prefer socials? DM <a class="ig" href="https://www.instagram.com/marrowpdx" target="_blank" rel="noopener">@marrowpdx <svg class="icon sm"><use href="#i-ig"/></svg></a> on Instagram
+          <span class="sep">—</span> parties of 8+ write to <a href="mailto:hello@marrowpdx.com">hello@marrowpdx.com</a>
+        </p>
+      </form>
+
+      <div class="ticket-wrap" data-reveal style="--d:.15s">
+        <div class="ticket">
+          <span class="t-stamp" id="tStamp">Pending</span>
+          <div class="ticket-head">
+            <span class="t-logo">Marrow<span class="dot">.</span></span>
+            <span class="t-tag">Table Request</span>
+          </div>
+          <p class="t-no">Nº <span id="ticketNo">MRW-0000</span></p>
+          <div class="t-dash"></div>
+          <dl class="t-rows">
+            <div><dt>Guest</dt><dd id="tGuest">—</dd></div>
+            <div><dt>Date</dt><dd id="tDate">—</dd></div>
+            <div><dt>Time</dt><dd id="tTime">7:00 PM</dd></div>
+            <div><dt>Party</dt><dd id="tParty">2 guests</dd></div>
+            <div><dt>Seating</dt><dd id="tSeating">Dining room</dd></div>
+          </dl>
+          <p class="t-notes" id="tNotes" hidden></p>
+          <div class="t-dash-2"></div>
+          <svg class="t-barcode" id="barcode" viewBox="0 0 132 26" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <p class="t-foot">Valid when confirmed · 118 NW 11th Ave, Portland OR</p>
+        </div>
+        <p class="ticket-note">We hold tables for 15 minutes past the hour. Cancellations are forgiven; ghosting is not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ footer ============ -->
+<footer>
+  <div class="container">
+    <p class="foot-word" data-reveal>Marrow<span class="dot">.</span></p>
+    <div class="foot-grid">
+      <div>
+        <h4>Find us</h4>
+        118 NW 11th Ave, Portland OR<br>
+        <a href="mailto:hello@marrowpdx.com">hello@marrowpdx.com</a> · <a href="tel:+15035550182">(503) 555-0182</a>
+      </div>
+      <div>
+        <h4>Hours</h4>
+        Tue–Sun · 5 PM — Late<br>Closed Mondays
+      </div>
+      <div>
+        <h4>Follow along</h4>
+        <div class="foot-social">
+          <a href="https://www.instagram.com/marrowpdx" target="_blank" rel="noopener"><svg class="icon sm"><use href="#i-ig"/></svg>Instagram</a>
+          <a href="https://www.facebook.com/marrowpdx" target="_blank" rel="noopener"><svg class="icon sm"><use href="#i-fb"/></svg>Facebook</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2025</span> Marrow — Portland, Oregon</span>
+      <span>Cooked with fire since 2017</span>
+      <a href="#top">Back to top <svg class="icon sm"><use href="#i-arrow-up"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- toast -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg class="icon"><use href="#i-check"/></svg><span id="toastMsg"></span>
+</div>
+
+<noscript><style>[data-reveal]{opacity:1;transform:none}</style></noscript>
+
+<script>
+(function(){
+'use strict';
+const $  = (s, c=document) => c.querySelector(s);
+const $$ = (s, c=document) => [...c.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+/* ---------- mobile overlay ---------- */
+const overlay = $('#overlay'), burger = $('#navBurger');
+function setOverlay(open){
+  overlay.classList.toggle('open', open);
+  document.body.classList.toggle('locked', open);
+  burger.setAttribute('aria-expanded', open);
+}
+burger.addEventListener('click', () => setOverlay(!overlay.classList.contains('open')));
+ $('#overlayClose').addEventListener('click', () => setOverlay(false));
+ $$('.overlay a').forEach(a => a.addEventListener('click', () => setOverlay(false)));
+
+/* ---------- scroll reveals ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold: .15, rootMargin: '0px 0px -30px' });
+ $$('[data-reveal]').forEach(el => io.observe(el));
+
+/* ---------- hours / open-now ---------- */
+const HOURS = {0:[17,22], 1:null, 2:[17,22], 3:[17,22], 4:[17,22], 5:[17,23], 6:[17,23]};
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fmtH = h => `${h > 12 ? h - 12 : h} PM`;
+function getStatus(){
+  const now = new Date(), d = now.getDay(), h = now.getHours() + now.getMinutes()/60;
+  const today = HOURS[d];
+  if (today && h >= today[0] && h < today[1]) return { open:true, text:`Open now · kitchen until ${fmtH(today[1])}` };
+  for (let i = 0; i < 8; i++){
+    const dd = (d + i) % 7, hs = HOURS[dd];
+    if (!hs) continue;
+    if (i === 0){ if (h < hs[0]) return { open:false, text:`Closed · opens today at ${fmtH(hs[0])}` }; continue; }
+    return { open:false, text:`Closed · opens ${DAYS[dd]} at ${fmtH(hs[0])}` };
+  }
+  return { open:false, text:'Closed' };
+}
+function renderStatus(){
+  const s = getStatus();
+  $$('[data-status-text]').forEach(el => el.textContent = s.text);
+  $$('.status-dot').forEach(d => d.classList.toggle('is-open', s.open));
+}
+renderStatus();
+setInterval(renderStatus, 60000);
+
+/* highlight today's row in the hours table */
+const todayIdx = new Date().getDay();
+ $$('.hours tr').forEach(tr => {
+  const days = (tr.dataset.days || '').split(',').map(Number);
+  if (days.includes(todayIdx)){
+    tr.classList.add('today');
+    const tag = document.createElement('span');
+    tag.className = 'today-tag'; tag.textContent = 'Today';
+    tr.querySelector('td').appendChild(tag);
+  }
+});
+
+/* ---------- floating dish print (desktop only) ---------- */
+if (FINE && !RM){
+  const float = $('#dishFloat'), dfImg = $('#dfImg'), dfName = $('#dfName'), dfPrice = $('#dfPrice');
+  const menuSec = $('#menu');
+  let built = false;
+  let tx = innerWidth/2, ty = innerHeight/2, x = tx, y = ty, first = true;
+
+  function build(){
+    $$('.dish').forEach(d => {
+      const img = document.createElement('img');
+      img.src = `https://picsum.photos/seed/${d.dataset.seed}/440/560.jpg`;
+      img.alt = ''; img.dataset.seed = d.dataset.seed;
+      dfImg.appendChild(img);
+    });
+    built = true;
+    setActive($$('.dish')[0]);
+  }
+  function setActive(d){
+    if (!d) return;
+    $$('img', dfImg).forEach(im => im.classList.toggle('active', im.dataset.seed === d.dataset.seed));
+    dfName.textContent = $('.dish-name', d).textContent;
+    dfPrice.textContent = $('.dish-price', d).textContent;
+  }
+  menuSec.addEventListener('pointerenter', e => {
+    if (!built) build();
+    tx = e.clientX; ty = e.clientY;
+    if (first){ x = tx; y = ty; first = false; }
+    float.classList.add('show');
+  });
+  menuSec.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+  menuSec.addEventListener('pointerleave', () => float.classList.remove('show'));
+  menuSec.addEventListener('pointerover', e => {
+    const d = e.target.closest('.dish');
+    if (d) setActive(d);
+  });
+  (function loop(){
+    x += (tx - x) * .14; y += (ty - y) * .14;
+    const tilt = Math.max(-9, Math.min(9, (tx - x) * .05));
+    let px = x + 30;
+    if (px + 252 > innerWidth) px = x - 262;
+    float.style.transform = `translate(${px}px, ${y - 165}px) rotate(${tilt}deg)`;
+    requestAnimationFrame(loop);
+  })();
+}
+
+/* ---------- magnetic buttons ---------- */
+if (FINE && !RM){
+  $$('.magnetic').forEach(el => {
+    el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
+      el.style.transform = `translate(${dx * .16}px, ${dy * .22}px)`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+  });
+}
+
+/* ---------- toast ---------- */
+const toastEl = $('#toast'), toastMsg = $('#toastMsg');
+let tTimer;
+function toast(m){
+  toastMsg.textContent = m;
+  toastEl.classList.add('show');
+  clearTimeout(tTimer);
+  tTimer = setTimeout(() => toastEl.classList.remove('show'), 4200);
+}
+
+/* ---------- reservation: ticket, email, copy ---------- */
+const rform = $('#rform'), rName = $('#rName'), rEmail = $('#rEmail'), rDate = $('#rDate'),
+      rTime = $('#rTime'), rParty = $('#rParty'), rSeating = $('#rSeating'), rNotes = $('#rNotes'),
+      errBox = $('#rformError');
+
+const pad = n => String(n).padStart(2, '0');
+const fmtInput = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const now = new Date();
+rDate.min = fmtInput(now);
+let dflt = new Date(now);
+if (!HOURS[dflt.getDay()] || now.getHours() >= 21){
+  for (let i = 1; i <= 8; i++){
+    dflt = new Date(now.getTime() + i * 864e5);
+    if (HOURS[dflt.getDay()]) break;
+  }
+}
+rDate.value = fmtInput(dflt);
+
+const partyText = () => rParty.value === '8+' ? '8+ guests' : `${rParty.value} ${rParty.value === '1' ? 'guest' : 'guests'}`;
+const niceShort = v => v ? new Date(v + 'T12:00:00').toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'}) : '—';
+const niceLong  = v => new Date(v + 'T12:00:00').toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h; };
+
+function drawBarcode(h){
+  const svg = $('#barcode');
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const NS = 'http://www.w3.org/2000/svg';
+  const rect = (x, w) => {
+    const r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', x); r.setAttribute('y', 0);
+    r.setAttribute('width', w); r.setAttribute('height', 26);
+    r.setAttribute('fill', '#1D1812');
+    svg.appendChild(r);
+  };
+  rect(0, 1); rect(3, 1); rect(128, 1); rect(131, 1);      // guard bars
+  const seq = String(h % 1e10).padStart(10, '0').repeat(3);
+  let x = 8;
+  for (const ch of seq){
+    if (x > 116) break;
+    const v = ch.charCodeAt(0);
+    const w = (v % 3) + 1;
+    rect(x, w);
+    x += w + ((v >> 2) % 2) + 1;
+  }
+}
+
+function updateTicket(){
+  $('#tGuest').textContent   = rName.value.trim() || '—';
+  $('#tDate').textContent    = niceShort(rDate.value);
+  $('#tTime').textContent    = rTime.value;
+  $('#tParty').textContent   = partyText();
+  $('#tSeating').textContent = rSeating.value;
+  const n = rNotes.value.trim();
+  $('#tNotes').hidden = !n;
+  $('#tNotes').textContent = n ? (n.length > 96 ? n.slice(0, 96) + '…' : n) : '';
+  const h = hash(`${rName.value}|${rDate.value}|${rTime.value}|${rParty.value}`);
+  $('#ticketNo').textContent = 'MRW-' + (h % 9000 + 1000);
+  drawBarcode(h);
+}
+rform.addEventListener('input', updateTicket);
+rform.addEventListener('change', updateTicket);
+updateTicket();
+
+function message(){
+  const lines = [
+    'Hello Marrow,','',
+    "I'd like to request a table.",'',
+    `Name: ${rName.value.trim() || '—'}`,
+    `Email: ${rEmail.value.trim() || '—'}`,
+    `Date: ${niceLong(rDate.value)}`,
+    `Time: ${rTime.value}`,
+    `Party: ${partyText()}`,
+    `Seating: ${rSeating.value}`
+  ];
+  const n = rNotes.value.trim();
+  if (n) lines.push(`Notes: ${n}`);
+  lines.push('', '— written at marrowpdx.com');
+  return lines.join('\n');
+}
+const subject = () => `Table request — ${niceLong(rDate.value)} · ${rTime.value} · ${partyText()}`;
+
+rform.addEventListener('submit', e => {
+  e.preventDefault();
+  $$('.field', rform).forEach(f => f.classList.remove('field-error'));
+  const missing = [];
+  const mark = el => el.closest('.field').classList.add('field-error');
+  if (!rName.value.trim()){ missing.push('your name'); mark(rName); }
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rEmail.value.trim());
+  if (!emailOk){ missing.push('an email we can reply to'); mark(rEmail); }
+  if (!rDate.value){ missing.push('a date'); mark(rDate); }
+  if (missing.length){
+    errBox.hidden = false;
+    errBox.textContent = 'Still needed — ' + missing.join(', ') + '.';
+    if (!rName.value.trim()) rName.focus(); else if (!emailOk) rEmail.focus();
+    return;
+  }
+  errBox.hidden = true;
+  $('#tStamp').textContent = 'Requested';
+  const mailto = `mailto:reserve@marrowpdx.com?subject=${encodeURIComponent(subject())}&body=${encodeURIComponent(message())}`;
+  toast('Opening your email — the request is already written. Just press send.');
+  setTimeout(() => { window.location.href = mailto; }, 500);
+});
+
+function copyText(t){
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t);
+  return new Promise(res => {
+    const ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); ta.remove(); res();
+  });
+}
+ $('#copyBtn').addEventListener('click', () => {
+  copyText(message())
+    .then(() => toast('Copied — paste it into a DM to @marrowpdx on Instagram.'))
+    .catch(() => toast('Copy failed — the ticket has everything you need.'));
+});
+
+/* ---------- footer year ---------- */
+ $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
